@@ -109,7 +109,7 @@
 </div>
 
 <script type="text/babel">
-      import { useState, useEffect } from 'react';
+      
       function GithubUser({ name, location, avatar, bio }) {
         return (
           <div>
@@ -124,11 +124,11 @@
       }
       
       function MyApp() {
-        const [data, setData] = useState(null);
-        const [error, setError] = useState(null);
-        const [loading, setLoading] = useState(false);
+        const [data, setData] = Raect.useState(null);
+        const [error, setError] = React.useState(null);
+        const [loading, setLoading] = React.useState(false);
         
-        useEffect(() => {
+        React.useEffect(() => {
             setLoading(true);
             fetch(
               `https://api.github.com/users/sidibos`
