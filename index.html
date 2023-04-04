@@ -92,16 +92,8 @@
   </header>
 
   <main class="px-3">
-    <h2>Wellcome To Moussa Sidibe's Page!</h22>
-    <p class="lead">
-      <img src="./sidibos-profile.jpg" />
-    </p>
-    <p class="lead">
-      I am a Senior Software Engineer with 12+ years' experience, focus on backend applications, and love working with frontend techs and other new technologies.
-I am reliable, trustworthy, motivated and team player. 
-I have years of experiences working as a web developer on big projects for different companies in the UK, developing web applications for the financial institutions, sport organization, developing CMS websites, building and using API for feed data and integrating third party application such as Facebook, PayPal, ClickMeeting and Opta. 
-I have been using some new technologies and programming languages such as Python, Rust, Node.js, Symfony 5, Laravel 5, Zend, Docker, WordPress, Drupal 7&8, React, jQuery, jQuery Mobile, HTML5, and LAMP stack. 
-    </p>
+    <h2>Wellcome To Moussa Sidibe's Page!</h2>
+    <div id="root"></div>
     <p class="lead">
       I am also a holder of AWS CSA (Certified, Solution, Architect) certificate.
     </p>
@@ -115,11 +107,52 @@ I have been using some new technologies and programming languages such as Python
     <!--<p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>-->
   </footer>
 </div>
+<script type="text/javascript">
+  import { useState, useEffect } from 'react';
+</script>
 
 <script type="text/babel">
-    
+      function GithubUser({ name, location, avatar, bio }) {
+        return (
+          <div>
+            <h1>{name}</h1>
+            <p class="lead">{location}</p>
+            <p class="lead">
+              <img src={avatar} height={150} alt={name} />
+            </p>
+            <p class="lead">{bio}</p>
+          </div>
+        )
+      }
+      
       function MyApp() {
-        return <h1>Best Of The Best!</h1>;
+        const [data, setData] = useState(null);
+        const [error, setError] = useState(null);
+        const [loading, setLoading] = useState(false);
+        
+        useEffect(() => {
+            setLoading(true);
+            fetch(
+              `https://api.github.com/users/sidibos`
+            )
+            .then((response) => response.json())
+            .then(setData)
+            .then(() => setLoading(false))
+            .catch(setError);
+        }, []);
+        if (loading) return <h1>Loading ...</h1>;
+        if (error)
+          return <pre>JSON.stringify(error)</pre>;
+
+        if (!data) return null;
+        if (data) {
+          return <GithubUser 
+          name={data.name} 
+          location={data.location} 
+          avatar={data.avatar_url}
+          bio={data.bio}
+          />
+        }
       }
 
       const container = document.getElementById('root');
